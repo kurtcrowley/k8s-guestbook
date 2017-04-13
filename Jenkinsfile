@@ -1,8 +1,9 @@
 node {
-  def project = 'rdo'
-  def appName = 'guestbook'
+  def project = 'guestbook-kubernetes'
+  def appName = 'php-redis'
   def feSvcName = "${appName}-frontend"
-  def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+  def imageTag = "${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+  def registryTag = "rdoregistry.azurecr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   checkout scm
 
@@ -15,8 +16,8 @@ node {
   stage 'Push image to registry'
   //sh("gcloud docker push ${imageTag}")
   sh("docker login rdoregistry.azurecr.io -u rdoregistry -p ${ACS_REGISTRY}")
-  sh("docker tag ${feSvcName} ${imageTag}")
-  sh("docker push ${imageTag}")
+  sh("docker tag ${imageTag} ${registryTag}")
+  sh("docker push ${registryTag}")
 
   stage "Deploy Application"
   switch (env.BRANCH_NAME) {
