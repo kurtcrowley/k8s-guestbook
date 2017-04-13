@@ -8,7 +8,7 @@ node {
   checkout scm
 
   stage 'Deploy Redis Master Deployment and Service'
-  sh("kubectl delete deployment app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  //sh("kubectl delete deployment app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
