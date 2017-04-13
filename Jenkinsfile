@@ -10,6 +10,7 @@ node {
 
   stage 'Deploy Redis Master Deployment and Service'
   sh("kubectl delete deployment -l app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete service -l app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
@@ -30,7 +31,8 @@ node {
   sh("docker push ${registryTag}")
 
   stage 'Deploy Frontend PHP Image Deployment and Service'
-  sh("kubectl delete deployment -l app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete deployment -l kubapp=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete service -l kubapp=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f rdo-frontend-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
