@@ -2,13 +2,14 @@ node {
   def project = 'guestbook-kubernetes'
   def appName = 'php-redis'
   def feSvcName = "${appName}-frontend"
+  def latestTag = "${project}/${appName}:latest" 
   def imageTag = "${project}/${appName}:${env.BUILD_NUMBER}"
   def registryTag = "rdoregistry.azurecr.io/${project}/${appName}:${env.BUILD_NUMBER}"
 
   checkout scm
 
   stage 'Deploy Redis Master Deployment and Service'
-  //sh("kubectl delete deployment app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete deployment app=redis --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f redis-master-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
@@ -25,10 +26,11 @@ node {
   stage 'Register Frontend PHP Image ACR'
   //sh("gcloud docker push ${imageTag}")
   sh("docker login rdoregistry.azurecr.io -u rdoregistry -p ${ACS_REGISTRY}")
-  sh("docker tag ${imageTag} ${registryTag}")
+  sh("docker tag ${latestTag} ${registryTag}")
   sh("docker push ${registryTag}")
 
   stage 'Deploy Frontend PHP Image Deployment and Service'
+  sh("kubectl delete deployment app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f rdo-frontend-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
