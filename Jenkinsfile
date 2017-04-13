@@ -5,6 +5,7 @@ node {
   def latestTag = "${project}/${appName}:latest" 
   def imageTag = "${project}/${appName}:${env.BUILD_NUMBER}"
   def registryTag = "rdoregistry.azurecr.io/${project}/${appName}:${env.BUILD_NUMBER}"
+  def registryLatestTag = "rdoregistry.azurecr.io/${project}/${appName}:latest"
 
   checkout scm
 
@@ -27,8 +28,8 @@ node {
   stage 'Register Frontend PHP Image ACR'
   //sh("gcloud docker push ${imageTag}")
   sh("docker login rdoregistry.azurecr.io -u rdoregistry -p ${ACS_REGISTRY}")
-  sh("docker tag ${latestTag} ${registryTag}")
-  sh("docker push ${registryTag}")
+  sh("docker tag ${imageTag} ${registryLatestTag}")
+  sh("docker push ${registryLatestTag}")
 
   stage 'Deploy Frontend PHP Image Deployment and Service'
   sh("kubectl delete deployment -l kubapp=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
