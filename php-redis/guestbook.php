@@ -35,6 +35,8 @@ if (isset($_GET['cmd']) === true) {
 
     $value = $client->get($_GET['key']);
     print('{"data": "' . $value . '"}');
+    echo gethostname(); // may output e.g,: sandie
+
   }
 } else {
   phpinfo();
