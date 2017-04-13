@@ -3,7 +3,6 @@ node {
   def appName = 'php-redis'
   def feSvcName = "${appName}-frontend"
   def imageTag = "${project}/${appName}:${env.BUILD_NUMBER}"
-  echo  ${imageTag}
   def registryTag = "rdoregistry.azurecr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   checkout scm
