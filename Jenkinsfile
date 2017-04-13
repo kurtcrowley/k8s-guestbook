@@ -8,12 +8,12 @@ node {
   checkout scm
 
   stage 'Deploy Redis Master Deployment and Service'
-  sh("kubectl create -f redis-master-deployment.yaml")
-  sh("kubectl create -f redis-master-service.yaml")
+  sh("kubectl create -f redis-master-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl create -f redis-master-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
   stage 'Deploy Redis Slave Deployment and Service'
-  sh("kubectl create -f redis-slave-deployment.yaml")
-  sh("kubectl create -f redis-slave-service.yaml")
+  sh("kubectl create -f redis-slave-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl create -f redis-slave-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
   stage 'Build Frontend PHP Image'
   sh("docker build -t ${imageTag} ${appName}")
@@ -28,8 +28,8 @@ node {
   sh("docker push ${registryTag}")
 
   stage 'Deploy Frontend PHP Image Deployment and Service'
-  sh("kubectl create -f rdo-frontend-deployment.yaml")
-  sh("kubectl create -f frontend-service.yaml")
+  sh("kubectl create -f rdo-frontend-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl create -f frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
   //stage "Deploy Application"
   //switch (env.BRANCH_NAME) {
