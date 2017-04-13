@@ -2,14 +2,14 @@ node {
   def project = 'guestbook-kubernetes'
   def appName = 'php-redis'
   def feSvcName = "${appName}-frontend"
-  def imageTag = "${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+  def imageTag = "${project}/${appName}:${env.BUILD_NUMBER}"
   echo  ${imageTag}
   def registryTag = "rdoregistry.azurecr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   checkout scm
 
   stage 'Build image'
-  sh("docker build -t ${imageTag} ${project}/${appName}")
+  sh("docker build -t ${imageTag}")
 
   //stage 'Run Go tests'
   //sh("docker run ${imageTag} go test")
