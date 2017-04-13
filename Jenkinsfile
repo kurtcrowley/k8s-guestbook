@@ -35,7 +35,7 @@ node {
   sh("kubectl delete deployment -l app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl delete service -l app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f rdo-frontend-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
-  sh("kubectl create -f frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl create -f rdo-frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
   //stage "Deploy Application"
   //switch (env.BRANCH_NAME) {
