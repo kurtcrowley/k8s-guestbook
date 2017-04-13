@@ -32,8 +32,8 @@ node {
   sh("docker push ${registryLatestTag}")
 
   stage 'Deploy Frontend PHP Image Deployment and Service'
-  sh("kubectl delete deployment -l kubapp=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
-  sh("kubectl delete service -l kubapp=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete deployment -l app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
+  sh("kubectl delete service -l app=guestbook --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f rdo-frontend-deployment.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
   sh("kubectl create -f frontend-service.yaml --kubeconfig /home/rdoadmin/apps/jenkins/config")
 
