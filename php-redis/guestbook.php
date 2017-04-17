@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'Predis/Autoloader.php';
-//require './libraries/datadogstatsd.php';
+require 'libraries/datadogstatsd.php';
 
 Predis\Autoloader::register();
 
