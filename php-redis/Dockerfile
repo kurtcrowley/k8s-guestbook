@@ -18,6 +18,8 @@ RUN apt-get update
 RUN apt-get install -y php-pear
 RUN pear channel-discover pear.nrk.io
 RUN pear install nrk/Predis
+RUN docker-php-ext-install sockets
+RUN docker-php-ext-install curl
 
 # If the container's stdio is connected to systemd-journald,
 # /proc/self/fd/{1,2} are Unix sockets and apache will not be able to open()
