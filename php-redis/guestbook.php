@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'Predis/Autoloader.php';
+require './libraries/datadogstatsd.php';
 
 Predis\Autoloader::register();
 
@@ -21,6 +22,9 @@ if (isset($_GET['cmd']) === true) {
     ]);
 
     $client->set($_GET['key'], $_GET['value']);
+
+    DataDogStatsD::increment('guestbook.entry.added');	
+
     print('{"message": "Updated"}');
   } else {
     $host = 'redis-slave';
@@ -33,9 +37,11 @@ if (isset($_GET['cmd']) === true) {
       'port'   => 6379,
     ]);
 
-    $value = $client->get($_GET['key']);
+    $value = $client->get($_GET['key']);	
+   
+    DataDogStatsD::increment('guestbook.entry.read');
+
     print('{"data": "' . $value . '"}');
-    echo gethostname(); // may output e.g,: sandie
 
   }
 } else {
