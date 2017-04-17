@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'Predis/Autoloader.php';
-require './libraries/datadogstatsd.php';
+//require './libraries/datadogstatsd.php';
 
 Predis\Autoloader::register();
 
@@ -23,7 +23,7 @@ if (isset($_GET['cmd']) === true) {
 
     $client->set($_GET['key'], $_GET['value']);
 
-    DataDogStatsD::increment('guestbook.entry.added');	
+  //  DataDogStatsD::increment('guestbook.entry.added');	
 
     print('{"message": "Updated"}');
   } else {
@@ -39,7 +39,7 @@ if (isset($_GET['cmd']) === true) {
 
     $value = $client->get($_GET['key']);	
    
-    DataDogStatsD::increment('guestbook.entry.read');
+    //DataDogStatsD::increment('guestbook.entry.read');
 
     print('{"data": "' . $value . '"}');
 
