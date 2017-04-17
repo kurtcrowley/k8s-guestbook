@@ -6,6 +6,9 @@ ini_set('display_errors', 1);
 require 'Predis/Autoloader.php';
 require 'libraries/datadogstatsd.php';
 
+DataDogStatsD::increment('guestweb.page.views');
+DataDogStatsD::histogram('guestweb.render_time',15);
+
 Predis\Autoloader::register();
 
 if (isset($_GET['cmd']) === true) {
@@ -22,8 +25,8 @@ if (isset($_GET['cmd']) === true) {
     ]);
 
     $client->set($_GET['key'], $_GET['value']);
-
-  //  DataDogStatsD::increment('guestbook.entry.added');	
+    
+    DataDogStatsD::increment('guestweb.entry.added');
 
     print('{"message": "Updated"}');
   } else {
@@ -39,7 +42,7 @@ if (isset($_GET['cmd']) === true) {
 
     $value = $client->get($_GET['key']);	
    
-    //DataDogStatsD::increment('guestbook.entry.read');
+    DataDogStatsD::increment('guestweb.entry.read');
 
     print('{"data": "' . $value . '"}');
 
