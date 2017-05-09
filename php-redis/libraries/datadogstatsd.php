@@ -6,7 +6,8 @@
 
 class Datadogstatsd {
 
-    static protected $__server = 'localhost';
+    //static protected $__server = 'localhost';
+    static protected $__server = '10.244.1.1';
     static protected $__serverPort = 8125;
     static private $__datadogHost;
     static private $__eventUrl = '/api/v1/events';
